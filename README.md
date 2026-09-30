@@ -75,3 +75,9 @@ npm run build
 The later training phase is based on the user-selected [Hulkerz PPLPPL program on Boostcamp](https://www.boostcamp.app/users/ImldmW-hulkerz-ppl). NextSet is an independently built app and is not affiliated with Boostcamp. Program content retains its original attribution; publication of this repository does not claim ownership of that program.
 
 Built by Siah for personal training, family, and the Siahverse portfolio.
+
+## Program library
+
+At-Home PPL remains unchanged. The library also tracks the [r/Fitness Basic Beginner Routine](https://thefitness.wiki/routines/r-fitness-basic-beginner-routine/) and [Dumbbell Stopgap by Cammorak](https://old.reddit.com/r/Fitness/comments/zc0uy/a_beginner_dumbbell_program_the_dumbbell_stopgap/). These are community-authored routines, not NextSet coach partnerships. Their instructions are paraphrased and linked; no original articles or paid plans are bundled. Stopgap uses the published lunge option. Separate program records preserve legacy PPL logs.
+
+New commitments require a review and typed I agree. Run `node tests/catalog.mjs` for program schedules and SQLite-backed route checks; authentication is stubbed at the boundary in that test. Live Supabase email end-to-end testing remains separate.

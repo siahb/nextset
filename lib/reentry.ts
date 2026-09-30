@@ -1,9 +1,9 @@
 import {Day,days} from './workouts';
-export type EntryExercise={id:string;name:string;sets:number;min?:number;max?:number;core?:boolean;targets?:{min:number;max:number;unit:string;intensity?:number;intensityUnit?:string}[]};
+export type EntryExercise={id:string;name:string;sets:number;min?:number;max?:number;core?:boolean;amrap?:boolean;targets?:{min:number;max:number;unit:string;intensity?:number;intensityUnit?:string}[]};
 export const comeback:Record<Day,EntryExercise[]>={Push:[{id:'pushup',name:'Push-Up',sets:3,min:8,max:12},{id:'ohp',name:'Overhead Press',sets:3,min:8,max:12},{id:'dip',name:'Dip',sets:2,min:8,max:12},{id:'lateral',name:'Dumbbell Lateral Raise',sets:2,min:12,max:20}],Pull:[{id:'pullup',name:'Pull-Up',sets:3,min:6,max:10},{id:'barbell-row',name:'Barbell Row',sets:3,min:8,max:12},{id:'barbell-curl',name:'Barbell Bicep Curl',sets:2,min:10,max:15},{id:'face-pull',name:'Face Pull',sets:2,min:15,max:20}],Legs:[{id:'barbell-squat',name:'Barbell Squat',sets:3,min:8,max:12},{id:'rdl',name:'Romanian Deadlift',sets:3,min:8,max:12},{id:'barbell-lunge',name:'Barbell Lunge',sets:2,min:10,max:15},{id:'calf',name:'Standing Calf Raise',sets:2,min:12,max:20},{id:'core',name:'Plank OR Ab Wheel',sets:2,core:true}]};
 export type EntrySet={weight:number;reps:number;rir:number|null;goodForm:boolean;done:boolean};
-export type EntryLog={week:number;slot:number;day:Day;unit:'lb'|'kg';startedAt:string;finishedAt:string|null;exercises:{id:string;name:string;sets:EntrySet[]}[]};
-export type ProgramWeek={week:number;sourceWeek?:number;title:string;days:{day:Day;exercises:EntryExercise[]}[]};
+export type EntryLog={programId?:string;week:number;slot:number;day:Day|'Full Body A'|'Full Body B';unit:'lb'|'kg';startedAt:string;finishedAt:string|null;exercises:{id:string;name:string;sets:EntrySet[]}[]};
+export type ProgramWeek={week:number;sourceWeek?:number;title:string;days:{day:Day|'Full Body A'|'Full Body B';exercises:EntryExercise[]}[]};
 export const reentryWeeks:ProgramWeek[]=[1,2].map(week=>({week,title:'Re-entry',days:days.map(day=>({day,exercises:structuredClone(comeback[day])}))}));
 export function prependReentry(laterWeeks:Omit<ProgramWeek,'week'>[]):ProgramWeek[]{return [...reentryWeeks,...laterWeeks.map((week,index)=>({...week,week:index+3}))];}
 export function suggestProgress(ex:EntryExercise,previous?:EntryLog['exercises'][number]){

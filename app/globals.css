@@ -10,3 +10,7 @@
 .primary,.timer,.brand-icon,.done .check{background:var(--accent-fill)}
 .header-actions{display:flex;align-items:center;gap:20px;letter-spacing:0}.appearance-picker{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}.appearance-picker select{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:9px;min-height:40px}.account-appearance{max-width:560px;margin:24px auto 0;padding:0 20px;display:flex;justify-content:flex-end}
 @media(max-width:800px){.header-actions{gap:10px}.appearance-picker>span{display:none}.appearance-picker select{max-width:88px;padding:8px 5px}.header-meta .status{max-width:130px}header{gap:8px}.account-page{margin-top:20px}}@media(max-width:400px){.header-meta{max-width:92px}.mobile-brand{font-size:19px;gap:4px}}
+
+.commitment-review{margin-top:24px;padding-top:12px;border-top:1px solid var(--border);line-height:1.65}.commitment-review h3{font-size:24px}.commitment-review li{margin:12px 0}.commitment-review form>label{display:block;margin-bottom:8px}.commitment-review input{width:100%;max-width:360px;background:var(--input);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:16px}.commitment-review button:disabled{cursor:not-allowed}
+
+.program-switcher{display:flex;gap:10px;overflow-x:auto;padding:8px 0 16px}.program-switcher button{flex-shrink:0}.committed-programs{margin:22px 0}.committed-programs article{touch-action:pan-y}

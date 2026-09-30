@@ -1,0 +1,28 @@
+import {build} from 'esbuild';
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync} from 'node:fs';
+const sqlite=new DatabaseSync(':memory:');
+for(const file of ['0000_orange_rhino.sql','0001_solid_scalphunter.sql','0002_ordinary_rhino.sql'])sqlite.exec(readFileSync('drizzle/'+file,'utf8'));
+globalThis.__catalogDB={prepare(sql){return {bind(...values){const stmt=sqlite.prepare(sql);return {async first(){return stmt.get(...values)??null;},async all(){return {results:stmt.all(...values)};},async run(){return stmt.run(...values);}};}};}};
+const output=await build({stdin:{contents:"export * from './lib/program';export * from './lib/catalog';export {GET as readLogs,PUT as saveLog} from './app/api/workouts/route';export {GET as readProfile,PUT as saveProfile} from './app/api/programs/route';",resolveDir:process.cwd()},bundle:true,write:false,format:'esm',platform:'node',plugins:[{name:'test-boundaries',setup(b){b.onResolve({filter:/training-user$/},()=>({path:'auth',namespace:'test'}));b.onResolve({filter:/db\/raw$/},()=>({path:'db',namespace:'test'}));b.onLoad({filter:/.*/,namespace:'test'},a=>({contents:a.path==='db'?'export const database=()=>globalThis.__catalogDB;':"export async function getTrainingUser(r){const id=r.headers.get('test-user');return id?{userId:id}:null;}"}));}}]});
+const m=await import('data:text/javascript;base64,'+Buffer.from(output.outputFiles[0].text).toString('base64'));
+const request=(path,body,user='a',origin='https://test.invalid')=>new Request('https://test.invalid'+path,{method:body?'PUT':'GET',headers:{...(user?{'test-user':user}:{}),origin,'Content-Type':'application/json'},body:body?JSON.stringify(body):undefined});
+assert.deepEqual(m.getProgramWeek(1,'basic-beginner').days.map(d=>d.day),['Full Body A','Full Body B','Full Body A']);
+assert.deepEqual(m.getProgramWeek(2,'basic-beginner').days.map(d=>d.day),['Full Body B','Full Body A','Full Body B']);
+assert.equal(m.getProgramWeek(1).days.length,3);assert.equal(m.getProgramWeek(2).days.length,3);assert.equal(m.getProgramWeek(14).days.length,6);
+assert.equal((await m.readProfile(request('/api/programs',null,null))).status,401);
+assert.equal((await m.saveProfile(request('/api/programs',{programIds:['basic-beginner']}))).status,400);
+assert.equal((await m.saveProfile(request('/api/programs',{programIds:['basic-beginner'],agreement:'I agree'},'a','https://other.invalid'))).status,403);
+assert.equal((await m.saveProfile(request('/api/programs',{programIds:['basic-beginner','dumbbell-stopgap'],agreement:'I agree'}))).status,200);
+assert.equal((await m.saveProfile(request('/api/programs',{programIds:['unknown'],agreement:'I agree'}))).status,400);
+for(const id of m.programIds){const d=m.getProgramWeek(1,id).days[0],log={programId:id,week:1,slot:0,day:d.day,unit:'kg',startedAt:new Date().toISOString(),finishedAt:null,exercises:d.exercises.map(e=>({id:e.id,name:e.core?'Plank':e.name,sets:Array.from({length:e.sets},()=>({weight:10,reps:5,rir:null,goodForm:true,done:true}))}))};
+ assert.equal((await m.saveLog(request('/api/workouts',log))).status,200);
+ const data=await (await m.readLogs(request('/api/workouts?programId='+id))).json();assert.equal(data.logs.length,1);assert.equal(data.logs[0].programId,id);
+ assert.equal((await m.saveLog(request('/api/workouts',{...log,exercises:[]}))).status,400);
+ assert.equal((await m.readLogs(request('/api/workouts?programId='+id,null,null))).status,401);
+ assert.equal((await (await m.readLogs(request('/api/workouts?programId='+id,null,'b'))).json()).logs.length,0);
+}
+assert.equal((await (await m.readLogs(request('/api/workouts'))).json()).logs[0].programId,'at-home-ppl');
+sqlite.close();delete globalThis.__catalogDB;
+console.log('Catalog passed: alternating schedules, preserved PPL, agreement gate, origins, independent SQLite records and user isolation.');
