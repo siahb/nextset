@@ -12,7 +12,8 @@
 1. More real coach-created programs, each with its own saved workout namespace, author information, equipment, difficulty, and program details. Do not invent coach endorsements or publish programs without source permission.
 2. Multiple commitments with a horizontally swipeable active-program carousel; recommend one program at a time. The current catalog contains one available program, so only one can currently be committed.
 3. Advanced weekly reports and a transparent strength score with a defined baseline and confidence limits; improve the muscle tracker with exercise-specific direct/indirect coverage.
-4. Connect Nexus to an AI service with private, user-consented training context. Offer substitutions, explanations, and log reviews; recommendations must never silently change workout weights or plans.
+4. Deferred for now: connect Nexus to an AI service with private, user-consented training context. Offer substitutions, explanations, and log reviews; recommendations must never silently change workout weights or plans.
 
 ## Validation
 TypeScript/production build, iPhone-width browser checks, saved-program API authorization and origin checks, calendar-week streaks, PR baselines, load conversion, and draft exclusion.
+

@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="system" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{__html: "(()=>{try{const p=localStorage.getItem('nextset-appearance');document.documentElement.dataset.theme=p==='light'||p==='dark'?p:'system'}catch{}})()"}} /></head>
       <body className="antialiased">{children}</body>
     </html>
   );
