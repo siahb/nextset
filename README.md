@@ -19,9 +19,9 @@ An iPhone-friendly home-gym workout tracker built for Siahverse. Plan your next 
 
 ## Project status
 
-The live app currently uses private ChatGPT sign-in. Email/password accounts are implemented in this repository; registration is intentionally disabled while the final confirmation/recovery redirect configuration and end-to-end checks are completed. The public repository does not make anyone's workout data public.
+Email/password accounts support signup confirmation, sign-in, and password recovery without a ChatGPT account. Workout data remains private even though the app and this source repository are publicly accessible. The previous ChatGPT account is supported only for existing users and verified import.
 
-See [email account transition](EMAIL-ACCOUNTS.md) for the remaining activation steps.
+See [email account transition](EMAIL-ACCOUNTS.md) for the transition notes and validation status.
 
 ## Stack
 
@@ -39,7 +39,8 @@ npm run dev
 Open the localhost address printed by the development server. The portable starter supports simulated sign-in for local development only. Apply the included D1 migration before using local workout persistence:
 
 ```sh
-npx wrangler d1 migrations apply site-creator-d1 --local --persist-to .wrangler/state
+npm run build
+npx wrangler d1 execute site-creator-d1 --config dist/server/wrangler.json --local --persist-to .wrangler/state --file drizzle/0000_orange_rhino.sql
 ```
 
 For your own deployment, configure your own database binding and authentication project. The Supabase URL and publishable key in `lib/email-config.ts` are public client configuration, not administrative credentials. Never add service-role keys, passwords, database exports, or real workout records to Git.

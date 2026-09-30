@@ -1,12 +1,16 @@
-# Email account transition
+# Email accounts
 
-Email/password account UI and server-verified Supabase identities are implemented. Workout logs remain in the existing D1 database, scoped by `email:<verified Supabase user ID>`. Existing ChatGPT logs are preserved. Import requires both identities to have the same verified email and does not replace existing email-account records.
+Email/password accounts use Supabase Auth. Workout logs remain in the existing D1 database, scoped by `email:<verified Supabase user ID>`. Every email-account API request verifies identity through Supabase's Auth server; unverified emails cannot read or write training records. No service-role key is used.
 
-Production still uses the previous private publication. Keep registration disabled until:
-- Supabase allows https://nextset.siahverse.cc/account and the generated Site origin /account as email redirect URLs, preserving NurseDoku redirects.
-- Signup confirmation, sign-in and password recovery have been checked with user-authorized accounts.
-- Authenticated users cannot access another user's logs and anonymous requests are denied.
+Existing ChatGPT logs are preserved. Import requires both identities to have the same verified email and never replaces existing email-account records. Email accounts are shared with the existing Siahverse authentication project; NurseDoku data and redirects are preserved.
 
-Resend sending domain verification succeeded September 30, 2026. The Supabase dashboard needs owner sign-in to configure redirects. Its connected database tools cannot edit Auth configuration.
+## Configuration and validation
 
-After those checks: enable registration in lib/email-config.ts, build/publish this Site, then change Site access to public. The public program and tools can be viewed without an account; private workout data still requires server-verified identity. Do not remove the original auth helper until old logs have been imported.
+- Resend sending domain verification succeeded September 30, 2026.
+- Exact confirmation/recovery redirects are saved for https://nextset.siahverse.cc/account and https://next-set-siah.siahborj.chatgpt.site/account.
+- Anonymous, forged-token, unverified-email and verified-identity checks passed; API rejects invalid tokens and cross-origin writes. TypeScript and production builds pass.
+- Browser signup confirmation, password recovery delivery, and two-user live save/restore still need a user-authorized test mailbox. No test emails are sent to invented recipients.
+
+The Site is being published with its program and tools accessible publicly. Private workout APIs still require authenticated identity. Registration keeps email confirmation enabled; delivery errors remain visible and can be retried.
+
+To deploy a fork, supply your own Supabase URL/publishable key and D1 binding. Never commit administrator credentials or database exports.
