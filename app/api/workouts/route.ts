@@ -1,12 +1,10 @@
-import {getChatGPTUser} from '../../chatgpt-auth';
-import {getEmailUser} from '../../email-auth';
+import {getTrainingUser as userFor} from '../../training-user';
 import {database} from '../../../db/raw';
 import {getProgramWeek} from '../../../lib/program';
 import {z} from 'zod';
 export const dynamic='force-dynamic';
 const logSchema=z.object({week:z.number().int().min(1).max(Number.MAX_SAFE_INTEGER),slot:z.number().int().min(0).max(5),day:z.enum(['Push','Pull','Legs']),unit:z.enum(['lb','kg']),startedAt:z.string().datetime(),finishedAt:z.string().datetime().nullable(),exercises:z.array(z.object({id:z.string().max(80),name:z.string().max(100),sets:z.array(z.object({weight:z.number().finite().min(0).max(2000),reps:z.number().int().min(0).max(3600),rir:z.number().int().min(0).max(10).nullable(),goodForm:z.boolean(),done:z.boolean()})).min(1).max(10)})).min(1).max(20)});
 const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
-async function userFor(request:Request){return request.headers.has('authorization')?getEmailUser(request):getChatGPTUser();}
 export async function GET(request:Request){
  try{const user=await userFor(request);if(!user)return json({error:'Sign in to save your training.'},401);const rows=await database().prepare('SELECT payload FROM workout_logs WHERE user_id = ? ORDER BY week, slot').bind(user.userId).all<{payload:string}>();return json({logs:rows.results.map(r=>JSON.parse(r.payload)),name:user.fullName??'Your training'});}catch(e){console.error('Load workouts failed',e);return json({error:'Could not load your workouts. Please retry.'},503);}
 }

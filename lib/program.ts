@@ -1,4 +1,4 @@
-import {prependReentry,ProgramWeek} from "./reentry";
+import {prependReentry,ProgramWeek,EntryLog} from "./reentry";
 import later from "./hulkerz.json";
 export const program=prependReentry(later as Omit<ProgramWeek,"week">[]);
 export function getProgramWeek(week:number):ProgramWeek {
@@ -6,3 +6,10 @@ export function getProgramWeek(week:number):ProgramWeek {
  return program[week-1]??{...program[program.length-1],week,title:'Ongoing PPLPPL'};
 }
 export const sourceUrl="https://www.boostcamp.app/users/ImldmW-hulkerz-ppl";
+export function nextWorkout(logs:EntryLog[]){
+ const draft=logs.filter(l=>!l.finishedAt).sort((a,b)=>Date.parse(b.startedAt)-Date.parse(a.startedAt))[0];
+ if(draft)return {week:draft.week,slot:draft.slot};
+ const week=Math.max(1,...logs.map(l=>l.week)),plan=getProgramWeek(week);
+ const slot=plan.days.findIndex((_,i)=>!logs.some(l=>l.week===week&&l.slot===i&&l.finishedAt));
+ return slot<0?{week:week+1,slot:0}:{week,slot};
+}

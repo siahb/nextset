@@ -6,6 +6,10 @@ An iPhone-friendly home-gym workout tracker built for Siahverse. Plan your next 
 
 ![NextSet rest timer and plate calculator](docs/nextset-tools.png)
 
+## Four tabs
+
+**Programs** offers At-Home PPL by Siah and saved commitments. **Train** shows the next workout, weekly streak, timer, and calculator. **Analytics** combines weekly summaries, PRs, muscle coverage, and history. **Nexus** is the upcoming AI trainer; live coaching and the strength score are not yet connected. See [the roadmap](ROADMAP.md).
+
 ## Features
 
 - **PPL at Home:** two lower-volume re-entry weeks with three workouts each: Push, Pull, and Legs.
@@ -41,6 +45,7 @@ Open the localhost address printed by the development server. The portable start
 ```sh
 npm run build
 npx wrangler d1 execute site-creator-d1 --config dist/server/wrangler.json --local --persist-to .wrangler/state --file drizzle/0000_orange_rhino.sql
+npx wrangler d1 execute site-creator-d1 --config dist/server/wrangler.json --local --persist-to .wrangler/state --file drizzle/0001_solid_scalphunter.sql
 ```
 
 For your own deployment, configure your own database binding and authentication project. The Supabase URL and publishable key in `lib/email-config.ts` are public client configuration, not administrative credentials. Never add service-role keys, passwords, database exports, or real workout records to Git.

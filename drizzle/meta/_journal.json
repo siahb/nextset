@@ -8,6 +8,13 @@
       "when": 1790791320731,
       "tag": "0000_orange_rhino",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1790800121926,
+      "tag": "0001_solid_scalphunter",
+      "breakpoints": true
     }
   ]
 }
