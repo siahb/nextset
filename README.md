@@ -81,3 +81,11 @@ Built by Siah for personal training, family, and the Siahverse portfolio.
 At-Home PPL remains unchanged. The library also tracks the [r/Fitness Basic Beginner Routine](https://thefitness.wiki/routines/r-fitness-basic-beginner-routine/) and [Dumbbell Stopgap by Cammorak](https://old.reddit.com/r/Fitness/comments/zc0uy/a_beginner_dumbbell_program_the_dumbbell_stopgap/). These are community-authored routines, not NextSet coach partnerships. Their instructions are paraphrased and linked; no original articles or paid plans are bundled. Stopgap uses the published lunge option. Separate program records preserve legacy PPL logs.
 
 New commitments require a review and typed I agree. Run `node tests/catalog.mjs` for program schedules and SQLite-backed route checks; authentication is stubbed at the boundary in that test. Live Supabase email end-to-end testing remains separate.
+
+## Custom routines and bodyweight training
+
+Create private repeating routines with up to seven workout days, exercise ordering, sets, rep or time ranges, and rest settings. Review and type I agree before committing. Logged schedules are protected from editing; duplicate a routine to change it while retaining its history. Custom programs are scoped to the signed-in user.
+
+The [r/bodyweightfitness Recommended Routine](https://www.reddit.com/r/bodyweightfitness/wiki/kb/recommended_routine/) includes three full-body sessions each week, selectable strength progressions, paired-set instructions, a core triplet, and timed holds. Consult the linked source for technique and progression prerequisites; NextSet includes selected variations. Weight totals exclude timed holds.
+
+Workout and program requests start together to reduce startup waiting. The Train page uses one active-program heading and one rest timer, with a separate plate calculator.

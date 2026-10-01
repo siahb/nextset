@@ -8,3 +8,5 @@ const baseline=trainingSummary([log(new Date(2026,8,29,12).toISOString(),100,'lb
 const draft={...log(new Date(2026,8,29,12).toISOString(),100),finishedAt:null};assert.equal(trainingSummary([draft],now).thisWeek.length,0);
 assert.equal(trainingSummary([],now).streak,0);assert.equal(trainingSummary([log(new Date(2026,8,20,12).toISOString(),10)],now).streak,0);
 console.log('Analytics passed: calendar weeks, streak gaps, normalized PRs, baseline exclusion, drafts, lb/kg volume');
+
+const hold={programId:"custom-test",week:1,slot:0,day:"Core",unit:"kg",startedAt:"2026-09-30T10:00:00Z",finishedAt:"2026-09-30T10:01:00Z",exercises:[{id:"hold",name:"Side Plank",measurement:"seconds",sets:[{weight:99,reps:30,done:true,rir:null,goodForm:true}]}]};assert.equal(trainingSummary([hold],new Date("2026-09-30T12:00:00Z")).volumeKg,0);
