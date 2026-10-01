@@ -95,4 +95,4 @@ Build with `npm run build`, then run `npm run deploy:cloudflare`. The build gene
 
 The production hostname is `nextset.siahverse.cc`. Keep its Custom Domain attached to the `nextset` Worker in Cloudflare. The previous Sites deployment is retained as a backup; do not publish new versions there.
 
-The Programs catalog also includes **Full-Body Bodyweight**, an original NextSet three-day routine using floor space and a pull-up bar. It starts with two sets per exercise for two weeks, then adds one set to the first three movements. Variation changes and progression remain manual. ACE is linked for exercise technique, not as the author of the routine.
+The Programs catalog also includes **Full-Body Bodyweight**, an original NextSet three-day routine using floor space and a pull-up bar, with optional kneeling ab-wheel rollouts. It starts with two sets per exercise for two weeks, then adds one set to the first three movements. Variation changes and progression remain manual. ACE is linked for exercise technique, not as the author of the routine.
