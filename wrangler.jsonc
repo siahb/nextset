@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nextset",
+  "account_id": "4da0fa080aa59daa8cdeedab82f5b1bf",
+  "main": "build/cloudflare-worker.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nextset",
+      "database_id": "1d89bdbd-2d7d-4d0a-98d2-eb4cdad51ac0",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "nextset.siahverse.cc",
+      "custom_domain": true
+    }
+  ]
+}

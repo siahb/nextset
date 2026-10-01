@@ -23,13 +23,13 @@ An iPhone-friendly home-gym workout tracker built for Siahverse. Plan your next 
 
 ## Project status
 
-Email/password accounts support signup confirmation, sign-in, and password recovery without a ChatGPT account. Workout data remains private even though the app and this source repository are publicly accessible. The previous ChatGPT account is supported only for existing users and verified import.
+Email/password accounts support signup confirmation, sign-in, and password recovery without a ChatGPT account. Workout data remains private even though the app and this source repository are publicly accessible. Authentication uses verified Siahverse email accounts. Caller-supplied identity headers are never trusted.
 
 See [email account transition](EMAIL-ACCOUNTS.md) for the transition notes and validation status.
 
 ## Stack
 
-TypeScript, React, Vinext/Vite, Cloudflare Workers, Cloudflare D1, Drizzle, Zod, and Supabase Auth. Sites manages the current production deployment and custom domain.
+TypeScript, React, Vinext/Vite, Cloudflare Workers, Cloudflare D1, Drizzle, Zod, and Supabase Auth. Production runs directly on Cloudflare Workers and a dedicated Cloudflare D1 database in the SiahBorj account. Supabase continues to manage email authentication.
 
 ## Run locally
 
@@ -40,12 +40,11 @@ npm ci
 npm run dev
 ```
 
-Open the localhost address printed by the development server. The portable starter supports simulated sign-in for local development only. Apply the included D1 migration before using local workout persistence:
+Open the localhost address printed by the development server. Local development uses email authentication and a local D1 database. Apply the included migrations before using local workout persistence:
 
 ```sh
 npm run build
-npx wrangler d1 execute site-creator-d1 --config dist/server/wrangler.json --local --persist-to .wrangler/state --file drizzle/0000_orange_rhino.sql
-npx wrangler d1 execute site-creator-d1 --config dist/server/wrangler.json --local --persist-to .wrangler/state --file drizzle/0001_solid_scalphunter.sql
+npx wrangler d1 migrations apply nextset --local
 ```
 
 For your own deployment, configure your own database binding and authentication project. The Supabase URL and publishable key in `lib/email-config.ts` are public client configuration, not administrative credentials. Never add service-role keys, passwords, database exports, or real workout records to Git.
@@ -89,3 +88,9 @@ Create private repeating routines with up to seven workout days, exercise orderi
 The [r/bodyweightfitness Recommended Routine](https://www.reddit.com/r/bodyweightfitness/wiki/kb/recommended_routine/) includes three full-body sessions each week, selectable strength progressions, paired-set instructions, a core triplet, and timed holds. Consult the linked source for technique and progression prerequisites; NextSet includes selected variations. Weight totals exclude timed holds.
 
 Workout and program requests start together to reduce startup waiting. The Train page uses one active-program heading and one rest timer, with a separate plate calculator.
+
+## Deploy to Cloudflare
+
+Build with `npm run build`, then run `npm run deploy:cloudflare`. The build generates `dist/server/wrangler.json` from `wrangler.jsonc`; Wrangler uploads the Worker and static assets together. Production D1 data must be migrated before switching a domain. Migration backups remain ignored and must never be committed.
+
+The production hostname is `nextset.siahverse.cc`. Keep its Custom Domain attached to the `nextset` Worker in Cloudflare. The previous Sites deployment is retained as a backup; do not publish new versions there.
