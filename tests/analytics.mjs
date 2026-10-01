@@ -10,3 +10,11 @@ assert.equal(trainingSummary([],now).streak,0);assert.equal(trainingSummary([log
 console.log('Analytics passed: calendar weeks, streak gaps, normalized PRs, baseline exclusion, drafts, lb/kg volume');
 
 const hold={programId:"custom-test",week:1,slot:0,day:"Core",unit:"kg",startedAt:"2026-09-30T10:00:00Z",finishedAt:"2026-09-30T10:01:00Z",exercises:[{id:"hold",name:"Side Plank",measurement:"seconds",sets:[{weight:99,reps:30,done:true,rir:null,goodForm:true}]}]};assert.equal(trainingSummary([hold],new Date("2026-09-30T12:00:00Z")).volumeKg,0);
+
+const earlier=new Date(2026,8,23,12).toISOString(),later=new Date(2026,8,29,12).toISOString();
+assert.equal(trainingSummary([log(earlier,20,'kg','Dumbbell Bench Press'),log(later,40,'kg','Barbell Bench Press')],now).records.length,0);
+const push1=log(earlier,0,'kg','Push-Up'),push2=log(later,0,'kg','Push-Up');push1.exercises[0].sets[0].reps=8;push2.exercises[0].sets[0].reps=12;
+assert.equal(trainingSummary([push1,push2],now).records[0].reps,12);
+const nordic=trainingSummary([log(later,0,'kg','Nordic Curl')],now);assert.equal(nordic.muscles.Hamstrings,1);assert.equal(nordic.muscles.Arms,0);
+assert.equal(trainingSummary([log(later,0,'kg','My exercise')],now).muscles.Other,1);
+console.log('Regression checks passed: equipment-specific PRs, bodyweight rep PRs, muscle classification');
