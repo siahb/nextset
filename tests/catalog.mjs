@@ -38,5 +38,11 @@ assert.equal((await m.saveCustom(request('/api/custom-programs',{...definition,i
 assert.equal((await m.saveCustom(request('/api/custom-programs',{...definition,days:[]}))).status,400);
 const rr=m.getProgramWeek(200,'recommended-routine');assert.equal(rr.days.length,3);assert.equal(rr.days[0].exercises.length,9);assert.equal(rr.days[0].exercises[2].targets[0].unit,'seconds');
 const rrDay=rr.days[0],rrLog={...customLog,programId:'recommended-routine',week:200,day:'Full Body',exercises:rrDay.exercises.map(e=>({id:e.id,name:e.variants.at(-1).name,sets:Array.from({length:3},()=>({weight:0,reps:5,rir:null,goodForm:true,done:true}))}))};assert.equal((await m.saveLog(request('/api/workouts',rrLog))).status,200);assert.equal((await m.saveLog(request('/api/workouts',{...rrLog,exercises:rrLog.exercises.map((e,i)=>i===0?{...e,name:'Invented variant'}:e)}))).status,400);
+const bw=m.getProgramWeek(1,'bodyweight-full-body');
+assert.equal(bw.days.length,3);assert.equal(bw.days[0].exercises.length,6);
+assert.deepEqual(bw.days[0].exercises.map(e=>e.sets),[2,2,2,2,2,2]);
+assert.deepEqual(m.getProgramWeek(2,'bodyweight-full-body').days,bw.days);
+assert.deepEqual(m.getProgramWeek(100,'bodyweight-full-body').days[0].exercises.map(e=>e.sets),[3,3,3,2,2,2]);
+bw.days[0].exercises[0].sets=9;assert.equal(bw.days[1].exercises[0].sets,2);
 sqlite.close();delete globalThis.__catalogDB;
 console.log('Catalog passed: alternating schedules, preserved PPL, agreement gate, origins, independent SQLite records and user isolation.');

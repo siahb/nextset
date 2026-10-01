@@ -18,3 +18,6 @@ assert.equal(trainingSummary([push1,push2],now).records[0].reps,12);
 const nordic=trainingSummary([log(later,0,'kg','Nordic Curl')],now);assert.equal(nordic.muscles.Hamstrings,1);assert.equal(nordic.muscles.Arms,0);
 assert.equal(trainingSummary([log(later,0,'kg','My exercise')],now).muscles.Other,1);
 console.log('Regression checks passed: equipment-specific PRs, bodyweight rep PRs, muscle classification');
+
+assert.equal(trainingSummary([log(later,0,'kg','Glute Bridge')],now).muscles.Glutes,1);
+assert.equal(trainingSummary([log(later,0,'kg','Dead Bug')],now).muscles.Core,1);

@@ -3,10 +3,12 @@ import {communityWeek,ProgramId} from './catalog';
 import {prependReentry,ProgramWeek,EntryLog} from "./reentry";
 import later from "./hulkerz.json";
 import {recommendedWeek} from './recommended-routine';
+import {bodyweightWeek} from './bodyweight-full-body';
 export const program=prependReentry(later as Omit<ProgramWeek,"week">[]);
 export function getProgramWeek(week:number,id:ProgramId='at-home-ppl',custom:CustomProgram[]=[]):ProgramWeek {
  if(!Number.isSafeInteger(week)||week<1)throw new Error('Choose a positive training week.');
  if(id==='recommended-routine')return recommendedWeek(week);
+ if(id==='bodyweight-full-body')return bodyweightWeek(week);
  const own=custom.find(p=>p.id===id);if(own)return {week,title:own.name,days:own.days.map(d=>({day:d.label,exercises:d.exercises.map(e=>({id:e.id,name:e.name,sets:e.sets,min:e.min,max:e.max,restSeconds:e.restSeconds,targets:Array.from({length:e.sets},()=>({min:e.min,max:e.max,unit:e.unit}))}))}))};
  if(id==='basic-beginner'||id==='dumbbell-stopgap')return communityWeek(week,id);
  if(id!=='at-home-ppl')throw Error('Program not found.');

@@ -4,7 +4,7 @@ import {database} from '../../../db/raw';
 import {z} from 'zod';
 export const dynamic='force-dynamic';
 const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
-const schema=z.object({agreement:z.string().optional(),programIds:z.array(z.string().max(80)).max(24).refine(ids=>new Set(ids).size===ids.length)});
+const schema=z.object({agreement:z.string().optional(),programIds:z.array(z.string().max(80)).max(programIds.length+20).refine(ids=>new Set(ids).size===ids.length)});
 export async function GET(request:Request){try{
  const user=await getTrainingUser(request);if(!user)return json({error:'Sign in to commit to a program.'},401);
  const row=await database().prepare('SELECT program_ids FROM training_profiles WHERE user_id = ?').bind(user.userId).first<{program_ids:string}>();
