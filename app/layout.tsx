@@ -18,7 +18,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Apply the shared cookie preference before paint to avoid a light/dark flash.
   return (
+    // eslint-disable-next-line @next/next/no-sync-scripts
     <html lang="en" data-theme="system" suppressHydrationWarning><head><script src="/siahverse-theme.js" /></head>
       <body className="antialiased">{children}</body>
     </html>

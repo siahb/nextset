@@ -1,13 +1,13 @@
 'use client';
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useState} from 'react';
 import {CustomDefinition,CustomProgram,customDefinition} from '../lib/custom-program';
 import {trainingFetch} from '../lib/email-client';
 const newExercise=()=>({id:crypto.randomUUID(),name:'',sets:3,min:8,max:12,unit:'reps' as const,restSeconds:120});
 const newDay=(n:number)=>({label:'Day '+n,exercises:[newExercise()]});
 export default function ProgramBuilder({initial,onSaved,onCancel}:{initial?:CustomProgram;onSaved:(p:CustomProgram)=>void;onCancel:()=>void}){
  const [draft,setDraft]=useState<CustomDefinition>(()=>initial?structuredClone(initial):{name:'',description:'',equipment:'',progression:'',days:[newDay(1)]}),[busy,setBusy]=useState(false),[error,setError]=useState('');
- const original=useRef(JSON.stringify(draft));
- const dirty=JSON.stringify(draft)!==original.current;
+ const [original]=useState(()=>JSON.stringify(draft));
+ const dirty=JSON.stringify(draft)!==original;
  useEffect(()=>{if(!dirty)return;const warn=(e:BeforeUnloadEvent)=>{e.preventDefault();e.returnValue='';};window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);},[dirty]);
  function changeDay(i:number,patch:Partial<CustomDefinition['days'][number]>){setDraft(d=>({...d,days:d.days.map((day,j)=>i===j?{...day,...patch}:day)}));}
  function changeExercise(di:number,ei:number,patch:Partial<CustomDefinition['days'][number]['exercises'][number]>){changeDay(di,{exercises:draft.days[di].exercises.map((e,i)=>i===ei?{...e,...patch}:e)});}
