@@ -1,10 +1,35 @@
 # NextSet release history
 
-[Public release history](https://siahverse.cc/changelog/#nextset).
+[Public history](https://siahverse.cc/changelog/#nextset)
 
-## 2026-10-02 — Documented baseline
-- Workout programs, private set logging, history, and analytics.
-- Source QA: type checks, catalog/analytics/auth tests, production build, and lint pass. Deployment of recent changes is not yet confirmed.
-- Added a release-history link in the application layout.
+Selected GitHub code history; commit dates are not confirmed deployment dates.
 
-Update this file and the public history when a user-visible change is released; distinguish source changes from verified production releases.
+
+
+## 2026-10-01
+
+- Fixed overlapping mobile program links. ([commit](https://github.com/siahb/nextset/commit/fc72a9be0af554fa14039d80cea4e46fe5be8818))
+
+## 2026-10-01
+
+- Added a full-body bodyweight and pull-up bar program. ([commit](https://github.com/siahb/nextset/commit/c8de95ca282f309d3a31b1ba5a3200665972fc04))
+
+## 2026-10-01
+
+- Connected appearance to the shared Siahverse theme. ([commit](https://github.com/siahb/nextset/commit/ce862ad2831d6636553f7f70e39d54bcabb94222))
+
+## 2026-10-01
+
+- Moved the app source to Cloudflare Workers with a dedicated database. ([commit](https://github.com/siahb/nextset/commit/85631ffeb3d07b063c18d3bdebfe78adef333eae))
+
+## 2026-09-30
+
+- Added a private program builder and Recommended Routine. ([commit](https://github.com/siahb/nextset/commit/c698e74a4c0211c40296f1c536b0911908846ad6))
+
+## 2026-09-30
+
+- Added beginner programs and commitment review. ([commit](https://github.com/siahb/nextset/commit/92383f6ee3f6bcff87cc61e540bdb49166ac15f4))
+
+## 2026-09-30
+
+- Initial workout app with home PPL, ongoing weeks, and workout tools. ([commit](https://github.com/siahb/nextset/commit/a4788de919fa8e064f42df131223f8e9b61137b7))
