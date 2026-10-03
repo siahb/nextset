@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     // eslint-disable-next-line @next/next/no-sync-scripts
     <html lang="en" data-theme="system" suppressHydrationWarning><head><script src="/siahverse-theme.js" /></head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">{children}<footer style={{textAlign:"center",padding:"16px"}}><a href="https://siahverse.cc/changelog/#nextset">Release history</a></footer></body>
     </html>
   );
 }
