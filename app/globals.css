@@ -21,3 +21,5 @@ a.primary,a.secondary{display:inline-flex;align-items:center;justify-content:cen
 
 /* Keep mobile navigation clear of the owner editing toolbar. */
 @media(max-width:800px){.shell{display:block}.shell>aside{position:sticky;top:0;bottom:auto;padding:8px 10px;border-top:0;border-bottom:1px solid var(--border)}.shell>main{padding-bottom:45px}.timer{top:86px}}
+
+.header-actions .sv-theme-control{order:10}.header-actions{flex-wrap:wrap}.account-appearance .sv-theme-control{margin-left:auto}
