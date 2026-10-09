@@ -48,7 +48,7 @@
         const control=document.getElementById(id);if(!control||control.type==='checkbox'||control.tagName!=='BUTTON')continue;
         control.classList.add('sv-theme-control');
         const header=control.closest('header,.brand,.topbar,.master-header,.top,.nav');
-        if(header){const actions=control.closest('.header-actions,.header-links,.top-actions,.nav')||header;actions.classList.add('sv-theme-row');actions.append(control);}
+        if(header){const actions=control.closest('.header-actions,.header-links,.top-actions,.nav')||header;actions.classList.add('sv-theme-row');if(actions===header){actions.style.justifyContent='space-between';const brand=actions.querySelector(':scope > .brand,:scope > .logo-link,:scope > .gate-brand,:scope > .logo,:scope > .home');if(brand)brand.style.marginRight='auto';}actions.append(control);}
         else if(control.parentElement===document.body){const header=document.createElement('header');header.className='sv-theme-header';const back=document.querySelector('a[href="/"],a[href="/nursing/"],a[href="/qbanco/"]');if(back)header.append(back);document.body.insertBefore(header,document.body.firstChild);header.append(control);}
       }
     }
