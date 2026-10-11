@@ -60,3 +60,6 @@
   // Cookies have no cross-origin change event. Visible tabs check for updates.
   window.setInterval(() => { if (!document.hidden) refresh(); }, 1000);
 })();
+
+// Shared Preferences UI is served centrally for identical controls across apps.
+(()=>{const script=document.createElement('script');script.src='https://siahverse.cc/site-settings.js?v=20261011-preferences';script.defer=true;document.head.append(script);})();
