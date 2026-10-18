@@ -4,12 +4,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "PPL at Home · NextSet",
   description: "Your return to lifting. Track sets, reps, and effort at home.",
+  manifest: "/manifest.webmanifest",
   other: {
     "codex-preview": "development",
   },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+    apple: [{ url: "/icons/icon-180.png?v=20261017-home-icons", sizes: "180x180" }],
   },
 };
 
